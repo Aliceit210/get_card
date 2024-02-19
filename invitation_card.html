@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .card {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+        .card h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <center>
+            <h2>Wedding Invitation Card Generator</h2>
+        </center>
+        <form id="wedding-card-form">
+            <label for="bride-name">Bride's Name:</label>
+            <input type="text" id="bride-name" required><br><br>
+            <label for="groom-name">Groom's Name:</label>
+            <input type="text" id="groom-name" required><br><br>
+            <label for="wedding-date">Wedding Date:</label>
+            <input type="date" id="wedding-date" required><br><br>
+            <input type="submit" value="Generate Invitation Card">
+        </form>
+    </div>
+
+    <div id="card-output" style="display: none;">
+        <center>
+            <h2>Card Output</h2>
+        </center>
+        <div id="card-preview" class="card">
+            <h2>Wedding Invitation</h2>
+            <p id="bride-output"></p>
+            <p id="groom-output"></p>
+            <p id="date-output"></p>
+        </div>
+        <button onclick="downloadCard()">Download Card</button>
+    </div>
+
+    <script>
+        document.getElementById("wedding-card-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const brideName = document.getElementById("bride-name").value;
+            const groomName = document.getElementById("groom-name").value;
+            const weddingDate = document.getElementById("wedding-date").value;
+
+            const cardOutput = document.getElementById("card-output");
+            cardOutput.style.display = "block";
+
+            const brideOutput = document.getElementById("bride-output");
+            brideOutput.textContent = "Bride: " + brideName;
+
+            const groomOutput = document.getElementById("groom-output");
+            groomOutput.textContent = "Groom: " + groomName;
+
+            const dateOutput = document.getElementById("date-output");
+            dateOutput.textContent = "Date: " + weddingDate;
+        });
+
+        function downloadCard() {
+            const cardPreview = document.getElementById("card-preview").outerHTML;
+            const filename = "wedding_invitation_card.html";
+
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(cardPreview));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+    </script>
+</body>
+</html>

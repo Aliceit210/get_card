@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .card {
+            width: 600px;
+            padding: 20px;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+        .card h2 {
+            margin-bottom: 10px;
+        }
+        .card p {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <center>
+            <h2>Letter Card Generator</h2>
+        </center>
+        <form id="letter-card-form">
+            <label for="sender-name">Sender's Name:</label>
+            <input type="text" id="sender-name" required><br><br>
+            <label for="recipient-name">Recipient's Name:</label>
+            <input type="text" id="recipient-name" required><br><br>
+            <label for="letter-content">Letter Content:</label><br>
+            <textarea id="letter-content" rows="8" required></textarea><br><br>
+            <input type="submit" value="Generate Letter Card">
+        </form>
+    </div>
+
+    <div id="card-output" style="display: none;">
+        <center>
+            <h2>Card Output</h2>
+        </center>
+        <div id="card-preview" class="card">
+            <h2>Letter</h2>
+            <p id="sender-output"></p>
+            <p id="recipient-output"></p>
+            <p id="content-output"></p>
+        </div>
+        <button onclick="downloadCard()">Download Card</button>
+    </div>
+
+    <script>
+        document.getElementById("letter-card-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const senderName = document.getElementById("sender-name").value;
+            const recipientName = document.getElementById("recipient-name").value;
+            const letterContent = document.getElementById("letter-content").value;
+
+            const cardOutput = document.getElementById("card-output");
+            cardOutput.style.display = "block";
+
+            const senderOutput = document.getElementById("sender-output");
+            senderOutput.textContent = "From: " + senderName;
+
+            const recipientOutput = document.getElementById("recipient-output");
+            recipientOutput.textContent = "To: " + recipientName;
+
+            const contentOutput = document.getElementById("content-output");
+            contentOutput.textContent = letterContent;
+        });
+
+        function downloadCard() {
+            const cardPreview = document.getElementById("card-preview").outerHTML;
+            const filename = "letter_card.html";
+
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(cardPreview));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+    </script>
+</body>
+</html>

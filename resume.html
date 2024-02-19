@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .card {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+        .card h2 {
+            margin-bottom: 10px;
+        }
+        .card p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <center>
+            <h2>Resume Card Generator</h2>
+        </center>
+        <form id="resume-card-form" enctype="multipart/form-data">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required><br><br>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" required><br><br>
+            <label for="skills">Skills (comma-separated):</label>
+            <input type="text" id="skills" required><br><br>
+            <label for="hobbies">Hobbies:</label>
+            <textarea id="hobbies" required></textarea><br><br>
+            <label for="languages">Languages:</label>
+            <textarea id="languages" required></textarea><br><br>
+            <label for="work-experience">Work Experience:</label>
+            <textarea id="work-experience" required></textarea><br><br>
+            <label for="reference">Reference:</label>
+            <textarea id="reference" required></textarea><br><br>
+            <label for="education-background">Education Background:</label>
+            <textarea id="education-background" required></textarea><br><br>
+            <label for="photo">Photo:</label>
+            <input type="file" id="photo" accept="image/*" required><br><br>
+            <input type="submit" value="Generate Resume Card">
+        </form>
+    </div>
+
+    <div id="card-output" style="display: none;">
+        <center>
+            <h2>Card Output</h2>
+        </center>
+        <div id="card-preview" class="card">
+            <h2>Resume</h2>
+            <p id="name-output"></p>
+            <p id="email-output"></p>
+            <p id="phone-output"></p>
+            <p id="skills-output"></p>
+            <p id="hobbies-output"></p>
+            <p id="languages-output"></p>
+            <p id="work-experience-output"></p>
+            <p id="reference-output"></p>
+            <p id="education-background-output"></p>
+            <img id="photo-output" src="" alt="User Photo">
+        </div>
+        <button onclick="downloadCard()">Download Card</button>
+    </div>
+
+    <script>
+        document.getElementById("resume-card-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const skills = document.getElementById("skills").value;
+            const hobbies = document.getElementById("hobbies").value;
+            const languages = document.getElementById("languages").value;
+            const workExperience = document.getElementById("work-experience").value;
+            const reference = document.getElementById("reference").value;
+            const educationBackground = document.getElementById("education-background").value;
+            const photo = document.getElementById("photo").files[0];
+
+            const cardOutput = document.getElementById("card-output");
+            cardOutput.style.display = "block";
+
+            const nameOutput = document.getElementById("name-output");
+            nameOutput.textContent = "Name: " + name;
+
+            const emailOutput = document.getElementById("email-output");
+            emailOutput.textContent = "Email: " + email;
+
+            const phoneOutput = document.getElementById("phone-output");
+            phoneOutput.textContent = "Phone: " + phone;
+
+            const skillsOutput = document.getElementById("skills-output");
+            skillsOutput.textContent = "Skills: " + skills;
+
+            const hobbiesOutput = document.getElementById("hobbies-output");
+            hobbiesOutput.textContent = "Hobbies: " + hobbies;
+
+            const languagesOutput = document.getElementById("languages-output");
+            languagesOutput.textContent = "Languages: " + languages;
+
+            const workExperienceOutput = document.getElementById("work-experience-output");
+            workExperienceOutput.textContent = "Work Experience: " + workExperience;
+
+            const referenceOutput = document.getElementById("reference-output");
+            referenceOutput.textContent = "Reference: " + reference;
+
+        
+
+
+            const educationBackgroundOutput = document.getElementById("education-background-output");
+            educationBackgroundOutput.textContent = "Education Background: " + educationBackground;
+
+            const photoOutput = document.getElementById("photo-output");
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoOutput.src = e.target.result;
+            };
+            reader.readAsDataURL(photo);
+        });
+
+        function downloadCard() {
+            const cardPreview = document.getElementById("card-preview").outerHTML;
+            const filename = "resume_card.html";
+
+            const element = document.createElement('a');
+        }

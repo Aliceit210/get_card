@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Card Generator</title>
+  <style>
+    .card {
+      width: 300px;
+      height: 200px;
+      background-color: #e9e9e9;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: scale(1.05);
+    }
+    
+    .card-form {
+      display: none;
+      margin-top: 20px;
+    }
+    
+    .card-form label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .card-form input {
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .card-form button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .generated-card {
+      display: none;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" onclick="showForm()">
+    <h2>Student Card</h2>
+    <p>Click here to enter your identification</p>
+  </div>
+  
+  <div id="formContainer" class="card-form">
+    <form onsubmit="generateCard(event)">
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Enter your name" required>
+      
+      <label for="studentId">Student ID:</label>
+      <input type="text" id="studentId" placeholder="Enter your student ID" required>
+      
+      <label for="class">Class:</label>
+      <input type="text" id="class" placeholder="Enter your class" required>
+      
+      <label for="schoolName">School Name:</label>
+      <input type="text" id="schoolName" placeholder="Enter your school name" required>
+      
+      <label for="level">Level:</label>
+      <input type="text" id="level" placeholder="Enter your level" required>
+  
+      <label for="dateIssued">Date Issued:</label>
+      <input type="date" id="dateIssued" required>
+  
+      <label for="expirationDate">Expiration Date:</label>
+      <input type="date" id="expirationDate" required>
+  
+      <label for="photo">Photo:</label>
+      <input type="file" id="photo" accept="image/*" required>
+      
+      <button type="submit">Generate Card</button>
+    </form>
+  </div>
+  
+  <div id="generatedCardContainer" class="generated-card">
+    <h2>Generated Student Card</h2>
+    <canvas id="cardCanvas" width="300" height="200"></canvas>
+  </div>
+  
+  <script>
+    function showForm() {
+      document.getElementById('formContainer').style.display = 'block';
+    }
+    
+    function generateCard(event) {
+  event.preventDefault();
+
+  // Get the input values
+  var name = document.getElementById('name').value;
+  var studentId = document.getElementById('studentId').value;
+  var className = document.getElementById('class').value;
+  var schoolName = document.getElementById('schoolName').value;
+  var level = document.getElementById('level').value;
+  var dateIssued = document.getElementById('dateIssued').value;
+  var expirationDate = document.getElementById('expirationDate').value;
+
+  // Get the canvas element
+  var canvas = document.getElementById('cardCanvas');
+  var context = canvas.getContext('2d');
+
+  // Clear the canvas
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Set the card background color
+  context.fillStyle = '#e9e9e9';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Set the text style
+  context.fillStyle = 'black';
+  context.font = '18px Arial';
+
+  // Draw the student name
+  context.fillText('Name: ' + name, 20, 50);
+
+  // Draw the student ID
+  context.fillText('Student ID: ' + studentId, 20, 90);
+
+  // Draw the class
+  context.fillText('Class: ' + className, 20, 130);
+
+  // Draw the school name
+  context.fillText('School: ' + schoolName, 20, 170);
+
+  // Draw the level
+  context.fillText('Level: ' + level, 20, 210);
+
+  // Draw the date issued
+  context.fillText('Date Issued: ' + dateIssued, 20, 250);
+
+  // Draw the expiration date
+  context.fillText('Expiration Date: ' + expirationDate, 20, 290);
+
+  // Draw the uploaded photo
+  var photoInput = document.getElementById('photo');
+  if (photoInput.files.length > 0) {
+    var photo = photoInput.files[0];
+    var photoUrl = URL.createObjectURL(photo);
+    var image = new Image();
+    image.src = photoUrl;
+    image.onload = function () {
+      context.drawImage(image, 180, 120, 100, 100);
+      // Cleanup the object URL after drawing the image
+      URL.revokeObjectURL(photoUrl);
+      // Trigger the card download
+      downloadCard(canvas);
+    };
+  } else {
+    // Trigger the card download without the photo
+    downloadCard(canvas);
+  }
+
+  // Show the generated card
+  document.getElementById('generatedCardContainer').style.display = 'block';
+}
+    function downloadCard(canvas) {
+      // Create a temporary link element
+      var link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'student_card.png';
+      // Trigger the link click event
+      link.click();
+    }
+  </script>
+</body>
+</html>

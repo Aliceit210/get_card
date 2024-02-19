@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .card {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+        .card img {
+            width: 100px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <center>
+            <h3>Business Card Generator</h3>
+        </center>
+        <form id="business-card-form" onsubmit="generateCard(event)">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required><br><br>
+            <label for="job-title">Job Title:</label>
+            <input type="text" id="job-title" required><br><br>
+            <label for="photo">Photo:</label>
+            <input type="file" id="photo" accept="image/*" required><br><br>
+            <input type="submit" value="Generate Business Card">
+        </form>
+    </div>
+
+    <div id="card-output" style="display: none;">
+        <center>
+            <h3>Card Output</h3>
+        </center>
+        <div id="card-preview" class="card">
+            <center>
+                <h3 id="output-name"></h3>
+            </center>
+            <img id="profile-image-output" src="https://bit.ly/2ONhalA" alt="Profile Image">
+            <p id="output-job-title"></p>
+        </div>
+        <button onclick="downloadCard()">Download Card</button>
+    </div>
+
+    <script>
+        function generateCard(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const jobTitle = document.getElementById("job-title").value;
+            const photo = document.getElementById("photo").files[0];
+
+            const cardOutput = document.getElementById("card-output");
+            cardOutput.style.display = "block";
+
+            const outputName = document.getElementById("output-name");
+            outputName.textContent = name;
+
+            const outputJobTitle = document.getElementById("output-job-title");
+            outputJobTitle.textContent = jobTitle;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("profile-image-output").src = e.target.result;
+            };
+            reader.readAsDataURL(photo);
+        }
+
+        function downloadCard() {
+            const cardPreview = document.getElementById("card-preview").outerHTML;
+            const filename = "business_card.html";
+
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(cardPreview));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+    </script>
+      <style>
+        canvas {
+          border: 1px solid black;
+        }
+      </style>
+    </head>
+    <body>
+      <canvas id="myCanvas" width="300" height="200"></canvas>
+    
+      <script>
+        // Get the canvas element
+        const canvas = document.getElementById('myCanvas');
+        
+        // Get the 2D rendering context
+        const ctx = canvas.getContext('2d');
+        
+        // Set the fill color
+        ctx.fillStyle = 'red';
+        
+        // Draw a rectangle
+        ctx.fillRect(50, 50, 200, 100);
+      </script>
+    </body>
+    </html>
+</body>
+</html>
